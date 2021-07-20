@@ -1,7 +1,7 @@
 <template>
   <h1>Test boutons et champs</h1>
   <div class="justify-center">
-    <Button :text="buttonType"></Button>
+    <v-button @color-change="$emit('update:colorButton', Math.random())" :random="colors" :text="buttonType"></v-button>
   </div>
 </template>
 
@@ -14,11 +14,18 @@ import Button from "@/components/Button.vue";
 export default defineComponent({
   name: "Test",
   components: {
-    Button,
+    'v-button': Button,
   },
   data: () => ({
     buttonType: "Valider",
+    colors: ["red", "blue", "green", "yellow", "purple", "pink"],
   }),
+  emits: ["update:colorButton"],
+  methods: {
+    // buttonClicked() {
+
+    // }
+  },
   // mounted() {
     
   // },
