@@ -1,18 +1,24 @@
 export default class Contact {
 
-  nom: string;
-  prenom: string;
-  tel: string;
+  name: string;
+  firstName: string;
+  phone: string;
+  photo: string;
+  birthdate: Date;
+  adress: string;
 
 
-  constructor(nom: string, prenom: string, tel: string) {
-    this.nom = nom;
-    this.prenom = prenom;
-    this.tel = tel;
+  constructor(name: string, firstName: string, phone: string, photo: string, birthdate: Date, adress: string) {
+    this.name = name;
+    this.firstName = firstName;
+    this.phone = phone;
+    this.photo = photo;
+    this.birthdate = birthdate;
+    this.adress = adress;
   }
 
   public toString = (): string => {
-    return `${this.nom} ${this.prenom}`;
+    return `${this.name} ${this.firstName}`;
   }
 
 }

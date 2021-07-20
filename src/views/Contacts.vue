@@ -1,7 +1,8 @@
 <template>
   <div class="flex">
     <Master :contacts="getContacts" v-model:contactIndex="contactIndex" @addContact="contactAdd" class="w-1/3 flex-col" />
-    <Details :contact="selectedContact" class="w-2/3" />
+    <Details :contact="selectedContact" class="w-1/3" />
+    <AddContact class="w-1/3"/>
   </div>
 </template>
 
@@ -10,6 +11,7 @@ import { defineComponent } from "vue";
 import Contact from "@/models/contact";
 import Master from "@/components/Master.vue";
 import Details from "@/components/Details.vue";
+import AddContact from "@/components/AddContact.vue";
 import {mapGetters, mapActions} from "vuex";
 
 export default defineComponent({
@@ -17,6 +19,7 @@ export default defineComponent({
   components: {
     Master,
     Details,
+    AddContact,
   },
   data: () => ({
     contactIndex: null,
@@ -43,7 +46,7 @@ export default defineComponent({
   methods: {
     ...mapActions("contacts", ["add"]),
     contactAdd() {
-      let newContact = new Contact("grande", "ariana", "0451485789");
+      let newContact = new Contact("grande", "ariana", "0451485789", "photo", new Date(1993, 6, 26), "15 rue random LOS ANGELES");
       console.log(newContact);
       this.add(newContact);
     }
