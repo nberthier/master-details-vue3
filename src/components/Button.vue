@@ -1,18 +1,19 @@
 <template>
-<div class="">
-  <button
-    @click="generateColor"
-    class="flex text-black dark:text-white font-bold py-2 px-4 rounded-full"
-    :style="{ backgroundColor: color }"
-  >
-    <!-- :class="[colors[colorIndex]]" -->
-    <slot>
-      {{ text }}
-      <!-- <SvgIcon name="twitter"/> -->
-      <!-- <CheckIcon class="h-5 w-5 text-black"/> -->
-      <!-- <MenuIcon/> -->
-    </slot>
-  </button>
+  <div class="">
+    <button
+      @click="generateColor"
+      class="flex text-black dark:text-white font-bold py-2 px-4 rounded-full"
+      :style="{ backgroundColor: randomColor }"
+      :color="color"
+    >
+      <!-- :class="[colors[colorIndex]]" -->
+      <slot>
+        {{ text }}
+        <!-- <SvgIcon name="twitter"/> -->
+        <!-- <CheckIcon class="h-5 w-5 text-black"/> -->
+        <!-- <MenuIcon/> -->
+      </slot>
+    </button>
   </div>
 </template>
 
@@ -52,72 +53,80 @@ export default defineComponent({
       type: [Boolean, Array],
       default: false,
     },
+    color: {
+      type: String,
+      default: "gray",
+    },
     // }
   },
   data: () => ({
-      color : null as any,
+    randomColor: null as any,
   }),
-  computed: {
-    
-  },
+  computed: {},
   methods: {
     randomNumberGenerator(max: number, min = 0) {
       return Math.floor(Math.random() * (max - min)) + min;
     },
     generateColor() {
       let color = null;
-      if (typeof this.random == "boolean") {
+      console.log("state of random", this.random);
+      
+      if (typeof this.random == "boolean" && this.random === true) {
         let r = this.randomNumberGenerator(255).toString(16),
-            g = this.randomNumberGenerator(255).toString(16),
-            b = this.randomNumberGenerator(255).toString(16);
+          g = this.randomNumberGenerator(255).toString(16),
+          b = this.randomNumberGenerator(255).toString(16);
         console.log(r, g, b);
         color = `#${r}${g}${b}`;
-        console.log(color);
+        console.log("random", color);
       } else if (Array.isArray(this.random)) {
-          color = this.random[this.randomNumberGenerator(this.random.length)];
-        console.log(this.random);
+        color = this.random[this.randomNumberGenerator(this.random.length)];
+        console.log("array", this.random);
+      } else {
+        color = this.color;
+        console.log("rien", color);
+        
       }
-      this.color = color;
+      this.randomColor = color;
     },
-  //   rgb2hsv (r: number, g: number, b: number) {
-  //   let rabs, gabs, babs, rr, gg, bb, h, s, v, diff, diffc, percentRoundFn;
-  //   rabs = r / 255;
-  //   gabs = g / 255;
-  //   babs = b / 255;
-  //   v = Math.max(rabs, gabs, babs),
-  //   diff = v - Math.min(rabs, gabs, babs);
-  //   diffc = c => (v - c) / 6 / diff + 1 / 2;
-  //   percentRoundFn = num => Math.round(num * 100) / 100;
-  //   if (diff == 0) {
-  //       h = s = 0;
-  //   } else {
-  //       s = diff / v;
-  //       rr = diffc(rabs);
-  //       gg = diffc(gabs);
-  //       bb = diffc(babs);
+    //   rgb2hsv (r: number, g: number, b: number) {
+    //   let rabs, gabs, babs, rr, gg, bb, h, s, v, diff, diffc, percentRoundFn;
+    //   rabs = r / 255;
+    //   gabs = g / 255;
+    //   babs = b / 255;
+    //   v = Math.max(rabs, gabs, babs),
+    //   diff = v - Math.min(rabs, gabs, babs);
+    //   diffc = c => (v - c) / 6 / diff + 1 / 2;
+    //   percentRoundFn = num => Math.round(num * 100) / 100;
+    //   if (diff == 0) {
+    //       h = s = 0;
+    //   } else {
+    //       s = diff / v;
+    //       rr = diffc(rabs);
+    //       gg = diffc(gabs);
+    //       bb = diffc(babs);
 
-  //       if (rabs === v) {
-  //           h = bb - gg;
-  //       } else if (gabs === v) {
-  //           h = (1 / 3) + rr - bb;
-  //       } else if (babs === v) {
-  //           h = (2 / 3) + gg - rr;
-  //       }
-  //       if (h < 0) {
-  //           h += 1;
-  //       }else if (h > 1) {
-  //           h -= 1;
-  //       }
-  //   }
-  //   return {
-  //       h: Math.round(h * 360),
-  //       s: percentRoundFn(s * 100),
-  //       v: percentRoundFn(v * 100)
-  //   };
-  // },
+    //       if (rabs === v) {
+    //           h = bb - gg;
+    //       } else if (gabs === v) {
+    //           h = (1 / 3) + rr - bb;
+    //       } else if (babs === v) {
+    //           h = (2 / 3) + gg - rr;
+    //       }
+    //       if (h < 0) {
+    //           h += 1;
+    //       }else if (h > 1) {
+    //           h -= 1;
+    //       }
+    //   }
+    //   return {
+    //       h: Math.round(h * 360),
+    //       s: percentRoundFn(s * 100),
+    //       v: percentRoundFn(v * 100)
+    //   };
+    // },
   },
   mounted() {
-      this.generateColor();
+    this.generateColor();
   },
   watch: {},
 });

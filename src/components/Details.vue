@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-wrap">
-    <button class="flex bg-green-500 ">Valider</button>
-    <button class="flex bg-red-500 ">Annuler</button>
+    <Button class="flex" @click="validateContact">Valider</Button>
+    <Button class="flex" @click="cancelContact">Annuler</Button>
     <form class="w-full">
       <div class="row-placement">
         <div class="col-placement">
@@ -12,7 +12,7 @@
             type="text"
             id="firstName"
             placeholder="Jane"
-            v-model:value="contactComputed.firstName"
+            v-model:value="currentContact.firstName"
           />
         </div>
         <div class="col-placement">
@@ -22,7 +22,7 @@
             type="text"
             id="familyName"
             placeholder="Doe"
-            v-model:value="contactComputed.name"
+            v-model:value="currentContact.name"
           />
         </div>
       </div>
@@ -34,7 +34,7 @@
             type="tel"
             id="phone"
             placeholder="+XX.X.XX.XX.XX.XX"
-            v-model:value="contactComputed.phone"
+            v-model:value="currentContact.phone"
           />
         </div>
         <div class="col-placement">
@@ -43,7 +43,7 @@
             type="date"
             id="birthdate"
             placeholder="DD/MM/YYYY"
-            v-model:value="contactComputed.birthdate"
+            v-model:value="currentContact.birthdate"
           />
         </div>
       </div>
@@ -54,7 +54,7 @@
             type="text"
             id="adress"
             placeholder="1, avenue du Général de Gaulle 75001 PARIS"
-            v-model:value="contactComputed.address"
+            v-model:value="currentContact.address"
           />
         </div>
         <div class="col-placement">
@@ -63,7 +63,7 @@
             type="url"
             id="photo"
             placeholder="URL de la photo"
-            v-model:value="contactComputed.photo"
+            v-model:value="currentContact.photo"
           />
         </div>
       </div>
@@ -103,28 +103,47 @@
 import Contact from "@/models/contact";
 //import ContactDetails from "@/components/ContactDetails.vue";
 import { defineComponent } from "vue";
-//import Button from "./Button.vue";
+import Button from "./Button.vue";
 import FormInput from "./FormInput.vue";
 export default defineComponent({
   name: "Details",
   components: {
     FormInput,
-    // Button,
+    Button,
     //  ContactDetails,
   },
   props: {
     contact: Contact,
   },
-  data: () => ({}),
+  data: () => ({
+    //currentContact: (typeof this.contact == undefined) ? new Contact("", "", "", "", new Date(), "") : this.contact,
+    currentContact: new Contact("", "", "", "", new Date(), ""),
+  }),
   computed: {
     contactComputed(): Contact {
       return (
+        //(this.currentContact as Contact) || new Contact("", "", "", "", new Date(), "")
         (this.contact as Contact) || new Contact("", "", "", "", new Date(), "")
       );
     },
   },
-  methods: {},
-  watch: {},
+  methods: {
+    validateContact() {
+      Object.assign(this.contact, this.currentContact);
+    },
+    cancelContact() {
+      Object.assign(this.currentContact, this.contact);
+    },
+  },
+  watch: {
+    contact: {
+      deep: true,
+      handler() {
+        Object.assign(this.currentContact, this.contact);
+        console.log(this.currentContact, this.contact);
+      },
+    },
+  },
 });
 </script>
 
