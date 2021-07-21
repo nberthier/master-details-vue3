@@ -21,7 +21,7 @@
 import Contact from "@/models/contact";
 import { defineComponent } from "vue";
 export default defineComponent({
-  name: "ContactMaster",
+  name: "AddContact",
   components: {},
   props: {
     contact: Contact,

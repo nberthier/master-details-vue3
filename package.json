@@ -11,6 +11,7 @@
     "@heroicons/vue": "^1.0.2",
     "@mdi/font": "^5.9.55",
     "autoprefixer": "^9.8.6",
+    "colorsys": "^1.0.22",
     "core-js": "^3.6.5",
     "heroicons-vue3": "^1.0.1",
     "moment": "^2.29.1",

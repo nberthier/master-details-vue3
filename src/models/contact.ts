@@ -5,16 +5,16 @@ export default class Contact {
   phone: string;
   photo: string;
   birthdate: Date;
-  adress: string;
+  address: string;
 
 
-  constructor(name: string, firstName: string, phone: string, photo: string, birthdate: Date, adress: string) {
+  constructor(name: string, firstName: string, phone: string, photo: string, birthdate: Date, address: string) {
     this.name = name;
     this.firstName = firstName;
     this.phone = phone;
     this.photo = photo;
     this.birthdate = birthdate;
-    this.adress = adress;
+    this.address = address;
   }
 
   public toString = (): string => {

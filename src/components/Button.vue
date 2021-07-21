@@ -1,7 +1,8 @@
 <template>
+<div class="">
   <button
     @click="generateColor"
-    class="flex text-black font-bold py-2 px-4 rounded-full"
+    class="flex text-black dark:text-white font-bold py-2 px-4 rounded-full"
     :style="{ backgroundColor: color }"
   >
     <!-- :class="[colors[colorIndex]]" -->
@@ -12,6 +13,7 @@
       <!-- <MenuIcon/> -->
     </slot>
   </button>
+  </div>
 </template>
 
 <script lang="ts">
@@ -53,7 +55,7 @@ export default defineComponent({
     // }
   },
   data: () => ({
-      color : null,
+      color : null as any,
   }),
   computed: {
     
@@ -72,11 +74,47 @@ export default defineComponent({
         color = `#${r}${g}${b}`;
         console.log(color);
       } else if (Array.isArray(this.random)) {
-          color = this.random[this.randomNumberGenerator(this.random.length-1)];
+          color = this.random[this.randomNumberGenerator(this.random.length)];
         console.log(this.random);
       }
       this.color = color;
     },
+  //   rgb2hsv (r: number, g: number, b: number) {
+  //   let rabs, gabs, babs, rr, gg, bb, h, s, v, diff, diffc, percentRoundFn;
+  //   rabs = r / 255;
+  //   gabs = g / 255;
+  //   babs = b / 255;
+  //   v = Math.max(rabs, gabs, babs),
+  //   diff = v - Math.min(rabs, gabs, babs);
+  //   diffc = c => (v - c) / 6 / diff + 1 / 2;
+  //   percentRoundFn = num => Math.round(num * 100) / 100;
+  //   if (diff == 0) {
+  //       h = s = 0;
+  //   } else {
+  //       s = diff / v;
+  //       rr = diffc(rabs);
+  //       gg = diffc(gabs);
+  //       bb = diffc(babs);
+
+  //       if (rabs === v) {
+  //           h = bb - gg;
+  //       } else if (gabs === v) {
+  //           h = (1 / 3) + rr - bb;
+  //       } else if (babs === v) {
+  //           h = (2 / 3) + gg - rr;
+  //       }
+  //       if (h < 0) {
+  //           h += 1;
+  //       }else if (h > 1) {
+  //           h -= 1;
+  //       }
+  //   }
+  //   return {
+  //       h: Math.round(h * 360),
+  //       s: percentRoundFn(s * 100),
+  //       v: percentRoundFn(v * 100)
+  //   };
+  // },
   },
   mounted() {
       this.generateColor();

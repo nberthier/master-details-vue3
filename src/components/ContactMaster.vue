@@ -1,7 +1,11 @@
 <template>
   <!-- <section>{{contact}}</section> -->
-  <button @click="$emit('isSelected')" class="btn" :class="[selected ? 'btn-hover' : 'btn-not-hover']">
-    {{ contact.toString() }}
+  <button
+    @click="$emit('isSelected')"
+    class="btn"
+    :class="[selected ? 'btn-hover' : 'btn-not-hover']"
+  >
+    {{ contact.name }} {{ contact.firstName }}
   </button>
 </template>
 
@@ -14,8 +18,8 @@ export default defineComponent({
   props: {
     contact: Contact,
     selected: {
-        type: Boolean,
-        default: false,
+      type: Boolean,
+      default: false,
     },
   },
   data: () => ({}),
@@ -33,12 +37,12 @@ export default defineComponent({
   @apply bg-green-700;
 }
 .btn-not-hover {
-    @apply bg-green-500;
+  @apply bg-green-500;
 }
 .btn {
   @apply text-white font-bold py-2 px-4 rounded w-full;
 }
 .btn:hover {
-    @apply btn-hover;
+  @apply btn-hover;
 }
 </style>
