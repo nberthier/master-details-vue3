@@ -8,7 +8,7 @@ export default class Contact {
   address = "";
 
 
-  constructor(name: string, firstName: string, phone: string, photo: string, birthdate: Date, address: string) {
+  constructor(name: string, firstName: string, phone: string, photo: string, birthdate: Date | null, address: string) {
     this.name = name;
     this.firstName = firstName;
     this.phone = phone;

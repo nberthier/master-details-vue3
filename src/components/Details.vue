@@ -1,10 +1,30 @@
 <template>
   <div>
     <div class="flex flex-wrap space-x-2 justify-evenly">
-      <Button @click="validateContact" class="text-white bg-lime-500">Valider</Button>
-      <Button @click="cancelContact" class="text-white bg-red-500">Annuler</Button>
-      <Button @click="modifyContact" class="text-white bg-indigo-500">Éditer</Button>
-      <Button @click="deleteContact" class="text-white bg-red-500">Supprimer</Button>
+      <Button
+        v-if="!nothingIsSelected && isEditing"
+        @click="validateContact"
+        class="text-white bg-lime-500"
+        >Valider</Button
+      >
+      <Button
+        v-if="!nothingIsSelected && isEditing"
+        @click="cancelContact"
+        class="text-white bg-red-500"
+        >Annuler</Button
+      >
+      <Button
+        v-if="!nothingIsSelected && !isEditing"
+        @click="modifyContact"
+        class="text-white bg-indigo-500"
+        >Éditer</Button
+      >
+      <Button
+        v-if="!nothingIsSelected && !isEditing"
+        @click="deleteContact"
+        class="text-white bg-red-500"
+        >Supprimer</Button
+      >
     </div>
     <form class="w-full">
       <div class="row-placement">
@@ -112,24 +132,38 @@ export default defineComponent({
     contact: Contact,
     contactIndex: Number,
   },
+  emits: ['update:contact'],
   data: () => ({
     //currentContact: (typeof this.contact == undefined) ? new Contact("", "", "", "", new Date(), "") : this.contact,
     currentContact: {} as Contact,
     isNotModifiable: true,
   }),
   computed: {
+    isEditing(): boolean {
+      return !this.isNotModifiable;
+    },
+    nothingIsSelected(): boolean {
+      return this.contactIndex == null;
+    },
   },
   methods: {
-    ...mapActions( "contacts", ["del"]),
+    ...mapActions("contacts", ["del"]),
     validateContact() {
-      Object.assign(this.contact, this.currentContact);
+      let newContact = new Contact(this.currentContact.name,
+        this.currentContact.firstName,
+        this.currentContact.phone,
+        this.currentContact.photo,
+        this.currentContact.birthdate,
+        this.currentContact.address);
+      console.log("validate1", this.currentContact as Contact, newContact);
+      this.$emit('update:contact', newContact);
     },
     cancelContact() {
       Object.assign(this.currentContact, this.contact);
       this.isNotModifiable = true;
       console.log(this.contactIndex);
-      
-      if ( this.contact == null ) {
+
+      if (this.contact == null) {
         this.del(this.contactIndex);
       }
     },
@@ -145,17 +179,17 @@ export default defineComponent({
     },
     updateCurrentContact() {
       if (this.contact) {
-          Object.assign(this.currentContact, this.contact);
-          this.isNotModifiable = true;
-        } else if ( this.contact === null ){
-          this.currentContact = {} as Contact;
-          this.isNotModifiable = false;
-        } else {
-          this.currentContact = {} as Contact;
-          this.isNotModifiable = true;
-        }
+        Object.assign(this.currentContact, this.contact);
+        this.isNotModifiable = true;
+      } else if (this.contact === null) {
+        this.currentContact = {} as Contact;
+        this.isNotModifiable = false;
+      } else {
+        this.currentContact = {} as Contact;
+        this.isNotModifiable = true;
+      }
 
-        console.log(this.currentContact, this.contact);
+      console.log(this.currentContact, this.contact);
     },
   },
   watch: {

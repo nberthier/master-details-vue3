@@ -5,7 +5,11 @@
       v-model:contactIndex="contactIndex"
       class="w-1/3 flex-col"
     />
-    <Details :contact="selectedContact" :contactIndex="indexComputed" class="w-2/3 flex-none" />
+    <Details
+      v-model:contact="selectedContact"
+      :contactIndex="indexComputed"
+      class="w-2/3 flex-none"
+    />
     <!-- <AddContact class="w-1/3"/> -->
   </div>
 </template>
@@ -30,21 +34,22 @@ export default defineComponent({
   }),
   computed: {
     ...mapGetters("contacts", ["getContacts"]),
-    selectedContact(): Contact | null {
-      if (this.contactIndex !== null) {
-        console.log( this.contactIndex, this.getContacts[this.contactIndex || 0]);
-        // if ( !this.getContacts[this.contactIndex || 0] ) {
-        //   this.contactIndex = null;
-        // }
-        return this.getContacts[this.contactIndex || 0];
-      } else {
-        return null;
+    selectedContact: {
+      get: function() : Contact | null {
+        if (this != undefined && this.contactIndex !== null) {
+          return this.getContacts[this.contactIndex || 0];
+        } else {
+          return null;
+        }
+      },
+      set: function(newContact : Contact) {
+        console.log("setter", newContact);
+        this.getContacts[this.contactIndex] = newContact;
       }
     },
-    indexComputed() : number | null {
-      if ( this.getContacts[this.contactIndex || 0] === undefined ) 
-        return null;
-        else return this.contactIndex;
+    indexComputed(): number | null {
+      if (this.getContacts[this.contactIndex || 0] === undefined) return null;
+      else return this.contactIndex;
     },
   },
   mounted() {
@@ -54,8 +59,6 @@ export default defineComponent({
     }));
     console.log(tabContact, result);
   },
-  methods: {
-    
-  },
+  methods: {},
 });
 </script>
