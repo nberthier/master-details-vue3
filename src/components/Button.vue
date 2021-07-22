@@ -1,20 +1,18 @@
 <template>
-  <div class="">
-    <button
-      @click="generateColor"
-      class="flex text-black dark:text-white font-bold py-2 px-4 rounded-full"
-      :style="{ backgroundColor: randomColor }"
-      :color="color"
-    >
-      <!-- :class="[colors[colorIndex]]" -->
-      <slot>
-        {{ text }}
-        <!-- <SvgIcon name="twitter"/> -->
-        <!-- <CheckIcon class="h-5 w-5 text-black"/> -->
-        <!-- <MenuIcon/> -->
-      </slot>
-    </button>
-  </div>
+  <button
+    @click="generateColor"
+    class="font-bold py-2 px-4 rounded-full"
+    :style="{ backgroundColor: randomColor }"
+    :color="color"
+  >
+    <!-- :class="[colors[colorIndex]]" -->
+    <slot>
+      {{ text }}
+      <!-- <SvgIcon name="twitter"/> -->
+      <!-- <CheckIcon class="h-5 w-5 text-black"/> -->
+      <!-- <MenuIcon/> -->
+    </slot>
+  </button>
 </template>
 
 <script lang="ts">
@@ -55,7 +53,7 @@ export default defineComponent({
     },
     color: {
       type: String,
-      default: "gray",
+      default: null,
     },
     // }
   },
@@ -69,22 +67,15 @@ export default defineComponent({
     },
     generateColor() {
       let color = null;
-      console.log("state of random", this.random);
-      
       if (typeof this.random == "boolean" && this.random === true) {
         let r = this.randomNumberGenerator(255).toString(16),
           g = this.randomNumberGenerator(255).toString(16),
           b = this.randomNumberGenerator(255).toString(16);
-        console.log(r, g, b);
         color = `#${r}${g}${b}`;
-        console.log("random", color);
       } else if (Array.isArray(this.random)) {
         color = this.random[this.randomNumberGenerator(this.random.length)];
-        console.log("array", this.random);
       } else {
         color = this.color;
-        console.log("rien", color);
-        
       }
       this.randomColor = color;
     },

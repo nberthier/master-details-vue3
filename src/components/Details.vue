@@ -1,7 +1,11 @@
 <template>
-  <div class="flex flex-wrap">
-    <Button class="flex" @click="validateContact">Valider</Button>
-    <Button class="flex" @click="cancelContact">Annuler</Button>
+  <div>
+    <div class="flex flex-wrap space-x-2 justify-evenly">
+      <Button @click="validateContact" class="text-white bg-lime-500">Valider</Button>
+      <Button @click="cancelContact" class="text-white bg-red-500">Annuler</Button>
+      <Button @click="modifyContact" class="text-white bg-indigo-500">Éditer</Button>
+      <Button @click="deleteContact" class="text-white bg-red-500">Supprimer</Button>
+    </div>
     <form class="w-full">
       <div class="row-placement">
         <div class="col-placement">
@@ -12,6 +16,7 @@
             type="text"
             id="firstName"
             placeholder="Jane"
+            :readonly="isNotModifiable"
             v-model:value="currentContact.firstName"
           />
         </div>
@@ -22,6 +27,7 @@
             type="text"
             id="familyName"
             placeholder="Doe"
+            :readonly="isNotModifiable"
             v-model:value="currentContact.name"
           />
         </div>
@@ -34,6 +40,7 @@
             type="tel"
             id="phone"
             placeholder="+XX.X.XX.XX.XX.XX"
+            :readonly="isNotModifiable"
             v-model:value="currentContact.phone"
           />
         </div>
@@ -43,6 +50,7 @@
             type="date"
             id="birthdate"
             placeholder="DD/MM/YYYY"
+            :readonly="isNotModifiable"
             v-model:value="currentContact.birthdate"
           />
         </div>
@@ -54,48 +62,35 @@
             type="text"
             id="adress"
             placeholder="1, avenue du Général de Gaulle 75001 PARIS"
+            :readonly="isNotModifiable"
             v-model:value="currentContact.address"
           />
         </div>
-        <div class="col-placement">
+        <div class="col-placement flex">
           <form-input
             label="Photo"
             type="url"
             id="photo"
             placeholder="URL de la photo"
+            :readonly="isNotModifiable"
             v-model:value="currentContact.photo"
+            class="flex-grow"
+          />
+          <img
+            class="
+              inline-block
+              h-20
+              w-20
+              rounded-full
+              object-cover
+              flex-none
+              ml-2
+            "
+            :src="currentContact.photo"
           />
         </div>
       </div>
     </form>
-    <div class="w-1/2">
-      Nom : <span class="uppercase">{{ contactComputed.name }}</span>
-    </div>
-    <div class="w-1/2">
-      Prénom : <span class="capitalize">{{ contactComputed.firstName }}</span>
-    </div>
-    <div class="w-1/2">
-      Téléphone : <span>{{ contactComputed.phone }}</span>
-    </div>
-    <div class="w-1/2">
-      Photo :
-      <span
-        ><img
-          class="object-fill overflow-hidden"
-          height="100"
-          width="100"
-          :src="contactComputed.photo"
-      /></span>
-    </div>
-    <div class="w-1/2">
-      Date de naissance :
-      <span>{{
-        $moment(contactComputed.birthdate).format("DD MMMM YYYY")
-      }}</span>
-    </div>
-    <div class="w-1/2">
-      Adresse : <span>{{ contactComputed.address }}</span>
-    </div>
   </div>
 </template>
 
@@ -103,6 +98,7 @@
 import Contact from "@/models/contact";
 //import ContactDetails from "@/components/ContactDetails.vue";
 import { defineComponent } from "vue";
+import { mapActions } from "vuex";
 import Button from "./Button.vue";
 import FormInput from "./FormInput.vue";
 export default defineComponent({
@@ -114,33 +110,64 @@ export default defineComponent({
   },
   props: {
     contact: Contact,
+    contactIndex: Number,
   },
   data: () => ({
     //currentContact: (typeof this.contact == undefined) ? new Contact("", "", "", "", new Date(), "") : this.contact,
-    currentContact: new Contact("", "", "", "", new Date(), ""),
+    currentContact: {} as Contact,
+    isNotModifiable: true,
   }),
   computed: {
-    contactComputed(): Contact {
-      return (
-        //(this.currentContact as Contact) || new Contact("", "", "", "", new Date(), "")
-        (this.contact as Contact) || new Contact("", "", "", "", new Date(), "")
-      );
-    },
   },
   methods: {
+    ...mapActions( "contacts", ["del"]),
     validateContact() {
       Object.assign(this.contact, this.currentContact);
     },
     cancelContact() {
       Object.assign(this.currentContact, this.contact);
+      this.isNotModifiable = true;
+      console.log(this.contactIndex);
+      
+      if ( this.contact == null ) {
+        this.del(this.contactIndex);
+      }
+    },
+    modifyContact() {
+      // if (this.isNotModifiable === false) {
+      console.log("appel modifycontact", this.isNotModifiable);
+      this.isNotModifiable = false;
+      // }
+      //return this.isNotModifiable;
+    },
+    deleteContact() {
+      this.del(this.contactIndex);
+    },
+    updateCurrentContact() {
+      if (this.contact) {
+          Object.assign(this.currentContact, this.contact);
+          this.isNotModifiable = true;
+        } else if ( this.contact === null ){
+          this.currentContact = {} as Contact;
+          this.isNotModifiable = false;
+        } else {
+          this.currentContact = {} as Contact;
+          this.isNotModifiable = true;
+        }
+
+        console.log(this.currentContact, this.contact);
     },
   },
   watch: {
+    contactIndex: {
+      handler() {
+        this.updateCurrentContact();
+      },
+    },
     contact: {
       deep: true,
       handler() {
-        Object.assign(this.currentContact, this.contact);
-        console.log(this.currentContact, this.contact);
+        this.updateCurrentContact();
       },
     },
   },
@@ -149,9 +176,9 @@ export default defineComponent({
 
 <style lang="postcss" scoped>
 .col-placement {
-  @apply w-full md:w-1/2 px-3;
+  @apply w-full md:w-1/2 px-3 mt-2;
 }
 .row-placement {
-  @apply flex flex-wrap -mx-3 mb-6;
+  @apply flex flex-wrap mt-2;
 }
 </style>

@@ -1,11 +1,15 @@
 <template>
-  <div id="nav">
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link> |
-    <router-link to="/contacts">Contacts</router-link> |
-    <router-link to="/test">Test</router-link>
+  <div class="flex flex-col">
+    <div id="nav" class="flex-initial">
+      <router-link to="/">Home</router-link> |
+      <router-link to="/about">About</router-link> |
+      <router-link to="/contacts">Contacts</router-link> |
+      <router-link to="/test">Test</router-link>
+    </div>
+    <!-- <div class="flex-auto overflow-hidden"> -->
+    <router-view />
+    <!-- </div> -->
   </div>
-  <router-view/>
 </template>
 
 <style>

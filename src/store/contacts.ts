@@ -13,13 +13,18 @@ export default {
     mutations: {
         ADD (state: any, contact: Contact) {
             state.contacts.push(contact);
-        }
+        },
+        DEL (state: any, contactIndex: number) {
+            state.contacts.splice(contactIndex, 1);
+        },
     },
     actions: {
         add (context: any, contact: Contact) {
-            console.log("action add", context, contact);
             context.commit("ADD", contact);
-        }
+        },
+        del (context: any, contactIndex: number) {
+            context.commit("DEL", contactIndex);
+        },
     },
     getters: {
         getContacts: (state: any) : [Contact] => state.contacts,

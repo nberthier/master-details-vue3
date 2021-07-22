@@ -1,6 +1,6 @@
 <template>
 <div class="space-y-1">
-  <button @click="$emit('addContact')" class="bg-blue-500 w-full justify-center rounded py-2 px-4 flex">
+  <button @click="contactAdd" class="bg-blue-500 w-full justify-center rounded py-2 px-4 flex">
     <svg
       xmlns="http://www.w3.org/2000/svg"
       class="h-6 w-6"
@@ -31,6 +31,7 @@
 <script lang="ts">
 import Contact from "@/models/contact";
 import ContactMaster from "@/components/ContactMaster.vue";
+import { mapActions } from "vuex";
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "Master",
@@ -44,7 +45,24 @@ export default defineComponent({
   emits: ["update:contactIndex"],
   data: () => ({}),
   computed: {},
-  methods: {},
+  methods: {
+    ...mapActions("contacts", ["add"]),
+    contactAdd() {
+      // let newContact = new Contact(
+      //   "grande",
+      //   "ariana",
+      //   "0451485789",
+      //   "photo",
+      //   new Date(1993, 6, 26),
+      //   "15 rue random LOS ANGELES"
+      // );
+      // this.add(newContact);
+      this.add(null);
+      console.log((this.contacts as [Contact]).length-1);
+      
+      this.$emit('update:contactIndex', (this.contacts as [Contact]).length-1);
+    },
+  },
   watch: {},
 });
 </script>

@@ -1,11 +1,11 @@
 export default class Contact {
 
-  name: string;
-  firstName: string;
-  phone: string;
-  photo: string;
-  birthdate: Date;
-  address: string;
+  name = "";
+  firstName= "";
+  phone = "";
+  photo = "";
+  birthdate: Date = null;
+  address = "";
 
 
   constructor(name: string, firstName: string, phone: string, photo: string, birthdate: Date, address: string) {

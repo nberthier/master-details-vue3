@@ -1,37 +1,38 @@
 <template>
-  <label
-    class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-    :for="getId"
-  >
-    {{ label }}
-  </label>
-  <input
-    class="
-      block
-      w-full
-      bg-gray-200
-      text-gray-700
-      border border-gray-500
-      rounded
-      py-3
-      px-4
-      mb-3
-      leading-tight
-      focus:outline-none
-      focus:bg-white
-    "
-    :id="getId"
-    :type="type"
-    :placeholder="placeholder"
-    :value="content"
-    @input="updateValue"
-  />
-  <p
-    :class="{ 'text-red-500': additionalMessageWarning }"
-    class="text-xs italic"
-  >
-    {{ additionalMessage }}
-  </p>
+  <div>
+    <label
+      class="block uppercase tracking-wide mx-4 text-gray-700 text-xs font-bold mb-1 text-left"
+      :for="getId"
+    >
+      {{ label }}
+    </label>
+    <input
+      class="
+        block
+        w-full
+        text-gray-700
+        rounded
+        py-3
+        px-4
+        leading-tight
+        focus:outline-none
+        focus:bg-white
+      "
+      :class="{ editable: !readonly }"
+      :id="getId"
+      :type="type"
+      :placeholder="placeholder"
+      :value="content"
+      :readonly="readonly"
+      @input="updateValue"
+    />
+    <p v-if="!readonly"
+      :class="{ 'text-red-500': additionalMessageWarning }"
+      class="text-xs italic text-left pt-1 mx-4"
+    >
+      {{ additionalMessage }}
+    </p>
+  </div>
   <!-- <p :class="[additionalMessageWarning ? ['text-red-500','font-bold'] : ['text-green-500','italic']]" class="text-xs">{{additionalMessage}}</p> -->
 </template>
 
@@ -51,6 +52,10 @@ export default defineComponent({
     id: String,
     placeholder: String,
     value: [Object, String],
+    readonly: {
+      type: Boolean,
+      default: false,
+    },
   },
   emits: ["update:value"],
   data: () => ({
@@ -77,4 +82,10 @@ export default defineComponent({
   },
 });
 </script>
+
+<style lang="postcss" scoped>
+.editable {
+  @apply border border-gray-600 bg-gray-200;
+}
+</style>
 

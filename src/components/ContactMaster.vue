@@ -1,11 +1,13 @@
 <template>
-  <!-- <section>{{contact}}</section> -->
   <button
     @click="$emit('isSelected')"
     class="btn"
-    :class="[selected ? 'btn-hover' : 'btn-not-hover']"
+    :class="[`${selected || hover ? 'btn-hover' : 'btn-not-hover'}${contact ? '' : '-null'}`]"
+    @mouseover="hover = true"
+    @mouseleave="hover = false"
   >
-    {{ contact.name }} {{ contact.firstName }}
+    <span v-if="contact"> {{ contact.name }} {{ contact.firstName }} </span>
+    <span v-else>Contact vide</span>
   </button>
 </template>
 
@@ -22,27 +24,34 @@ export default defineComponent({
       default: false,
     },
   },
-  data: () => ({}),
-  computed: {},
-  methods: {},
-  watch: {},
-  mounted() {
-    console.log(this.contact);
+  data: () => ({
+    hover: false,
+  }),
+  computed: {
+    backgroundColor() : string {
+      return this.contact ? 'green' : 'yellow';
+    },
   },
+  methods: {
+  },
+  watch: {},
 });
 </script>
 
-<style scoped>
+<style lang="postcss" scoped>
 .btn-hover {
   @apply bg-green-700;
 }
 .btn-not-hover {
   @apply bg-green-500;
 }
+.btn-hover-null {
+  @apply bg-yellow-700;
+}
+.btn-not-hover-null {
+  @apply bg-yellow-500;
+}
 .btn {
   @apply text-white font-bold py-2 px-4 rounded w-full;
-}
-.btn:hover {
-  @apply btn-hover;
 }
 </style>
