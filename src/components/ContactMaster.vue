@@ -2,12 +2,23 @@
   <button
     @click="$emit('isSelected')"
     class="btn"
-    :class="[`${selected || hover ? 'btn-hover' : 'btn-not-hover'}${contact ? '' : '-null'}`]"
+    :class="[
+      `${selected || hover ? 'btn-hover' : 'btn-not-hover'}${
+        contact ? '' : '-null'
+      }`,
+    ]"
     @mouseover="hover = true"
     @mouseleave="hover = false"
   >
-    <span v-if="contact"> {{ contact.name }} {{ contact.firstName }} </span>
+    <span v-if="contact">
+      {{ contact.name }} {{ contact.firstName }} {{ contact.phone }}</span
+    >
     <span v-else>Contact vide</span>
+    <img
+      v-if="contact && contact.photo != null"
+      class="inline-block h-10 w-10 rounded-full object-cover flex-none ml-2"
+      :src="contact.photo"
+    />
   </button>
 </template>
 
@@ -28,12 +39,11 @@ export default defineComponent({
     hover: false,
   }),
   computed: {
-    backgroundColor() : string {
-      return this.contact ? 'green' : 'yellow';
+    backgroundColor(): string {
+      return this.contact ? "green" : "yellow";
     },
   },
-  methods: {
-  },
+  methods: {},
   watch: {},
 });
 </script>

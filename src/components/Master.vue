@@ -19,6 +19,7 @@
   <ul class="list-none">
     <li v-for="(contact, index) in contacts" :key="index">
       <ContactMaster
+        class="capitalize"
         @is-selected="$emit('update:contactIndex', index)"
         :contact="contact"
         :selected="contactIndex === index"
@@ -58,7 +59,6 @@ export default defineComponent({
       // );
       // this.add(newContact);
       this.add(null);
-      console.log((this.contacts as [Contact]).length-1);
       
       this.$emit('update:contactIndex', (this.contacts as [Contact]).length-1);
     },

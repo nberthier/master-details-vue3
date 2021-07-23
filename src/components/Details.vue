@@ -155,13 +155,11 @@ export default defineComponent({
         this.currentContact.photo,
         this.currentContact.birthdate,
         this.currentContact.address);
-      console.log("validate1", this.currentContact as Contact, newContact);
       this.$emit('update:contact', newContact);
     },
     cancelContact() {
       Object.assign(this.currentContact, this.contact);
       this.isNotModifiable = true;
-      console.log(this.contactIndex);
 
       if (this.contact == null) {
         this.del(this.contactIndex);
@@ -169,7 +167,6 @@ export default defineComponent({
     },
     modifyContact() {
       // if (this.isNotModifiable === false) {
-      console.log("appel modifycontact", this.isNotModifiable);
       this.isNotModifiable = false;
       // }
       //return this.isNotModifiable;
@@ -188,8 +185,6 @@ export default defineComponent({
         this.currentContact = {} as Contact;
         this.isNotModifiable = true;
       }
-
-      console.log(this.currentContact, this.contact);
     },
   },
   watch: {

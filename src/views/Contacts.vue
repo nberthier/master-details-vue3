@@ -43,7 +43,6 @@ export default defineComponent({
         }
       },
       set: function(newContact : Contact) {
-        console.log("setter", newContact);
         this.getContacts[this.contactIndex] = newContact;
       }
     },
@@ -57,7 +56,6 @@ export default defineComponent({
     let result = tabContact.map((contact, index, tab) => ({
       id: contact.nom + index + tab.length,
     }));
-    console.log(tabContact, result);
   },
   methods: {},
 });
