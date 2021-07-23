@@ -1,6 +1,7 @@
 <template>
-<div class="space-y-1">
-  <button @click="contactAdd" class="bg-blue-500 w-full justify-center rounded py-2 px-4 flex">
+<div class="">
+  <div class="flex">
+  <button @click="contactAdd" class="bg-indigo-300 w-full justify-center rounded py-2 px-4 flex hover:bg-indigo-400 duration-200">
     <svg
       xmlns="http://www.w3.org/2000/svg"
       class="h-6 w-6"
@@ -16,10 +17,10 @@
       />
     </svg>
   </button>
+  </div>
   <ul class="list-none">
     <li v-for="(contact, index) in contacts" :key="index">
       <ContactMaster
-        class="capitalize"
         @is-selected="$emit('update:contactIndex', index)"
         :contact="contact"
         :selected="contactIndex === index"
