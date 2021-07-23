@@ -1,51 +1,69 @@
 <template>
-<div class="">
-  <div class="flex">
-  <button @click="contactAdd" class="bg-indigo-300 w-full justify-center rounded py-2 px-4 flex hover:bg-indigo-400 duration-200">
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      class="h-6 w-6"
-      fill="none"
-      viewBox="0 0 24 24"
-      stroke="currentColor"
-    >
-      <path
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        stroke-width="2"
-        d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
-      />
-    </svg>
-  </button>
-  </div>
-  <ul class="list-none">
-    <li v-for="(contact, index) in contacts" :key="index">
-      <ContactMaster
-        @is-selected="$emit('update:contactIndex', index)"
-        :contact="contact"
-        :selected="contactIndex === index"
-      />
-    </li>
-  </ul>
+  <div class="">
+    <div class="flex">
+      <button
+        @click="contactAdd"
+        class="
+          bg-indigo-300
+          w-full
+          justify-center
+          rounded
+          py-2
+          px-4
+          flex
+          hover:bg-indigo-400
+          duration-200
+        "
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-6 w-6"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
+          />
+        </svg>
+      </button>
+      <MasterSearch v-model:contacts="filteredContacts"></MasterSearch>
+    </div>
+    <ul class="list-none">
+      <li v-for="(contact, index) in contacts" :key="index">
+        <ContactMaster
+          @is-selected="$emit('update:contactIndex', index)"
+          :contact="contact"
+          :selected="contactIndex === index"
+        />
+      </li>
+    </ul>
   </div>
 </template>
 
 <script lang="ts">
 import Contact from "@/models/contact";
 import ContactMaster from "@/components/ContactMaster.vue";
+import MasterSearch from "@/components/MasterSearch.vue";
 import { mapActions } from "vuex";
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "Master",
   components: {
     ContactMaster,
+    MasterSearch,
   },
   props: {
     contacts: [Contact],
     contactIndex: Number,
   },
   emits: ["update:contactIndex"],
-  data: () => ({}),
+  data: () => ({
+    filteredContacts: null as [Contact],
+  }),
   computed: {},
   methods: {
     ...mapActions("contacts", ["add"]),
@@ -60,10 +78,21 @@ export default defineComponent({
       // );
       // this.add(newContact);
       this.add(null);
-      
-      this.$emit('update:contactIndex', (this.contacts as [Contact]).length-1);
+
+      this.$emit(
+        "update:contactIndex",
+        (this.contacts as [Contact]).length - 1
+      );
     },
   },
   watch: {},
 });
 </script>
+
+<style lang="postcss" scoped>
+.dropdown:focus-within .dropdown-menu {
+  opacity: 1;
+  transform: translate(0) scale(1);
+  visibility: visible;
+}
+</style>
