@@ -8,117 +8,227 @@
     ></v-button>
   </div>
 
-  <div class="w-1/3 flex-col">
-    <thead class="bg-indigo-50 flex sm:rounded-lg">
-      <tr>
-        <th
-          scope="col"
-          class="
-            px-6
-            py-3
-            text-left text-xs
-            font-medium
-            text-gray-500
-            uppercase
-            tracking-wider
-          "
-        >
-          <div class="mx-14">Nom</div>
-        </th>
-        <th
-          scope="col"
-          class="
-            px-6
-            py-3
-            text-left text-xs
-            font-medium
-            text-gray-500
-            uppercase
-            tracking-wider
-          "
-        >
-          <div class="mx-20">Téléphone</div>
-        </th>
-        <th
-          scope="col"
-          class="
-            px-6
-            py-3
-            text-left text-xs
-            font-medium
-            text-gray-500
-            uppercase
-            tracking-wider
-          "
-        ></th>
-        <th scope="col" class="relative px-6 py-3">
-          <span class="sr-only">Edit</span>
-        </th>
-      </tr>
-    </thead>
-    <li class="list-none" v-for="(contact, index) in contacts" :key="index">
-      <div class="flex flex-col">
-        <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-          <div
-            class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8"
+  <div class="relative inline-block text-left dropdown">
+    <span class="rounded-md shadow-sm"
+      ><button
+        class="
+          inline-flex
+          justify-center
+          py-2
+          text-sm
+          font-medium
+          leading-5
+          text-gray-700
+          transition
+          duration-150
+          ease-in-out
+          bg-white
+          border border-gray-300
+          rounded-md
+          hover:text-gray-500
+          focus:outline-none
+          focus:border-blue-300
+          focus:shadow-outline-blue
+          active:bg-gray-50
+          active:text-gray-800
+        "
+        type="button"
+        aria-haspopup="true"
+        aria-expanded="true"
+        aria-controls="headlessui-menu-items-117"
+      >
+        <svg class="w-5 h-5" viewBox="0 0 20 20" fill="currentColor">
+          <path
+            fill-rule="evenodd"
+            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+            clip-rule="evenodd"
+          ></path>
+        </svg></button
+    ></span>
+    <div
+      class="
+        opacity-0
+        invisible
+        dropdown-menu
+        transition-all
+        duration-300
+        transform
+        origin-top-right
+        -translate-y-2
+        scale-95
+      "
+    >
+      <div
+        class="
+          absolute
+          right-0
+          w-56
+          mt-2
+          origin-top-right
+          bg-white
+          border border-gray-200
+          divide-y divide-gray-100
+          rounded-md
+          shadow-lg
+          outline-none
+        "
+        aria-labelledby="headlessui-menu-button-1"
+        id="headlessui-menu-items-117"
+        role="menu"
+      >
+        <div class="shadow flex">
+          <input
+            class="w-full rounded p-2"
+            type="text"
+            placeholder="Recherche..."
+          />
+          <button
+            class="
+              bg-white
+              w-auto
+              flex
+              justify-end
+              items-center
+              text-blue-500
+              p-2
+              hover:text-blue-400
+            "
           >
-            <li class="min-w-full">
-              <button
-                class="w-full sm:rounded-lg"
-                @click="$emit('isSelected')"
-                @mouseover="hover = true"
-                @mouseleave="hover = false"
-                :class="hover ? 'btn-hover' : 'btn-not-hover'"
+            <i class="material-icons"
+              ><svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
               >
-                <div
-                  class="
-                    overflow-hidden
-                    border-b border-r border-indigo-200
-                    flex
-                    justify-evenly
-                    sm:rounded-lg
-                  "
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                /></svg
+            ></i>
+          </button>
+        </div>
+        <div class="px-4 py-3">
+          <p class="text-sm leading-5">Filtrer par</p>
+        </div>
+        <div class="py-1">
+          <div class="flex">
+            <p
+              tabindex="0"
+              class="
+                text-gray-700
+                flex
+                justify-between
+                w-full
+                px-4
+                py-2
+                text-sm
+                leading-5
+                text-left
+              "
+              role="menuitem"
+            >
+              Ordre alphabétique
+            </p>
+          </div>
+          <div class="flex">
+            <a
+              href="javascript:void(0)"
+              tabindex="1"
+              class="
+                text-gray-700
+                flex
+                justify-between
+                w-full
+                px-4
+                py-2
+                text-sm
+                leading-5
+                text-left
+              "
+              role="menuitem"
+              >Prénom</a
+            >
+            <button
+              class="
+                bg-white
+                w-auto
+                flex
+                justify-end
+                items-center
+                text-black
+                p-2
+              "
+            >
+              <i class="material-icons"
+                ><svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
                 >
-                  <!-- <tbody
-                    :class="hover ? 'btn-hover' : 'btn-not-hover'"
-                    @mouseover="hover = true"
-                    @mouseleave="hover = false"
-                    class="bg-white divide-y divide-gray-200"
-                  > -->
-
-                  <div class="px-6 py-3 whitespace-nowrap">
-                    <div class="flex items-center">
-                      <div class="flex-shrink-0 h-10 w-10">
-                        <img
-                          class="h-10 w-10 rounded-full"
-                          :src="contacts[index].photo"
-                          alt=""
-                        />
-                      </div>
-                      <div class="ml-4">
-                        <div
-                          class="text-sm font-medium text-gray-900 capitalize"
-                        >
-                          {{ contacts[index].firstName }}
-                          {{ contacts[index].name }}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="px-12 py-6 justify-center whitespace-nowrap">
-                    <div class="text-sm flex justify-center text-gray-900">
-                      {{ contacts[index].phone }}
-                    </div>
-                  </div>
-                  <!-- More people... -->
-                  <!-- </tbody> -->
-                </div>
-              </button>
-            </li>
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M19 9l-7 7-7-7"
+                  /></svg
+              ></i>
+            </button>
+          </div>
+          <div class="flex">
+            <a
+              href="javascript:void(0)"
+              tabindex="2"
+              class="
+                text-gray-700
+                flex
+                justify-between
+                w-full
+                px-4
+                py-2
+                text-sm
+                leading-5
+                text-left
+              "
+              role="menuitem"
+              >Nom</a
+            >
+            <button
+              class="
+                bg-white
+                w-auto
+                flex
+                justify-end
+                items-center
+                text-black
+                p-2
+              "
+            >
+              <i class="material-icons"
+                ><svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M19 9l-7 7-7-7"
+                  /></svg
+              ></i>
+            </button>
           </div>
         </div>
       </div>
-    </li>
+    </div>
   </div>
 </template>
 
@@ -199,5 +309,10 @@ export default defineComponent({
 }
 .btn {
   @apply text-white font-bold py-2 px-4 rounded w-full;
+}
+.dropdown:focus-within .dropdown-menu {
+  opacity: 1;
+  transform: translate(0) scale(1);
+  visibility: visible;
 }
 </style>
